@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Финансовый директор</title>
+    <link rel="stylesheet" type="text/css" href="css/loader.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="wrapper__in">
+            <div id="cardgame" class="cardgame">
+                <div class="cardgame__in">
+                    <div id="card" class="card">
+                        <div id="card-front" class="front">
+                            <div class="card-content">
+                                <div class="lds-css ng-scope">
+                                    <div class="lds-ripple">
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="card-back" class="back">
+                            <div class="card-content card-content__type-0">
+                                <div class="card-content__title">
+                                    Узнайте каких результатов могли бы добиться вы
+
+                                </div>
+                                <div class="card-content__text">
+                                    Иван Романов, купил компанию «Альфа» и пригласил Вас на должность финансового директора.
+                                    Первая задача, которую вы получили от нового руководства&nbsp;&mdash; предоставить годовую отчетность новому совету директоров 20 января.
+                                    Обычно отчетность появлялась в компании к 1 марта.
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a class="card-button js-to-question" data-question="1">Начать игру</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script id="question__tmpl" type="text/x-javascript-tmpl">
+
+
+
+        <div class="card-content card-content__type-{{id}} card-content__type-padded">
+
+            <div class="card-step">
+                <span class="card-step__in">Шаг {{id}} из 8</span>
+            </div>
+
+            <div class="card-content__title">
+                {{text}}
+            </div>
+            <div class="card-content__text">
+                <ol class="card-content_variants">
+                    {[ _.each(variants, function(variant) { ]}
+                        <li class="card-content_variant">
+                            <a class="js-to-answer" data-answer="{{variant.answerId}}" data-question="{{id}}">
+                                {{variant.text}}
+                            </a>
+                        </li>
+                    {[ }); ]}
+                </ol>
+            </div>
+        </div>
+    </script>
+
+
+    <script id="answer__tmpl" type="text/x-javascript-tmpl">
+
+        <div class="card-content card-content__type-{{type}}">
+            <div class="card-content__text">
+                {{text}}
+            </div>
+        </div>
+        <div class="card-footer">
+            <a class="card-button js-to-question" data-question="{{nextQuestion}}">
+                {{buttonText}}
+            </a>
+        </div>
+
+    </script>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/underscore.min.js"></script>
+    <script src="js/jquery.flip.min.js"></script>
+    <script src="js/gamedata.js"></script>
+    <script src="js/script.js"></script>
+
+</body>
+</html>
