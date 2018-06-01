@@ -5,42 +5,60 @@ _.templateSettings = {
 
 jQuery.fn.cardGame = function(data) {
     var $self = $(this),
-        questionsData = gameData.questionsData,
-        answersData = gameData.answersData,
+        questionsData = data.questionsData,
+        answersData = data.answersData,
         $card = $("#card", $self),
         $front = $("#card-front", $card),
         $back = $("#card-back", $card),
         questionTmpl = _.template($("#question__tmpl").html()),
-        answerTmpl = _.template($("#answer__tmpl").html());
+        answerTmpl = _.template($("#answer__tmpl").html()),
+        flipDirection = true,
+        answers = new Array(7);
 
     $card.flip({
         trigger: 'manual',
         axis: 'y'
     });
 
-    $card.on("click.cardGame", ".js-to-question", function(e) {
+    $card.on("click.cardGame", ".js-to-question, .js-to-answer", function(e) {
         var $this = $(e.currentTarget),
-            questionId = $this.data("question");
+            questionId = $this.data("question"),
+            answerIndex = $this.data("answerIndex"),
+            answerValue= $this.data("answerValue"),
+            $side = flipDirection ? $front : $back;
 
-        $front.html(questionTmpl(_.extend(questionsData[questionId], {id: questionId})));
-        $card.flip(false);
+        flipDirection = !flipDirection;
 
-    });
+        if (answerIndex != null) {
 
-    $card.on("click.cardGame", ".js-to-answer", function(e) {
-        var $this = $(e.currentTarget),
-            questionId = $this.data("question");
-            answerId = $this.data("answer");
+            answers[answerIndex] = answerValue;
 
-        $back.html(answerTmpl(answersData[questionId][answerId]));
-        $card.flip(true);
+        }
+
+        if (questionId <= 7) {
+            $side.html(questionTmpl(_.extend(questionsData[questionId], {id: questionId})));
+        } else {
+            var tmplData = {
+                answers: answers,
+                answersData: answersData,
+                count: _.reduce(answers, function(memo, num){ return memo + num; }, 0)
+            };
+
+            $side.html(answerTmpl(tmplData));
+        }
+
+
+
+
+        $card.flip(flipDirection);
+
     });
 
 
     return {
         init: function () {
             setTimeout(function () {
-                $card.flip(true);
+                $card.flip(flipDirection);
             }, 1000);
         }
     }
@@ -49,7 +67,7 @@ jQuery.fn.cardGame = function(data) {
 };
 
 
-$("#cardgame").cardGame(gameData).init();
+$("#cardgame").cardGame(data).init();
 
 
 

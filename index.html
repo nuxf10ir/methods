@@ -25,17 +25,16 @@
                         <div id="card-back" class="back">
                             <div class="card-content card-content__type-0">
                                 <div class="card-content__title">
-                                    Узнайте каких результатов могли бы добиться вы
-
+                                    Узнайте, какие новые методы управления финансами подойдут именно Вам
                                 </div>
                                 <div class="card-content__text">
-                                    Иван Романов, купил компанию «Альфа» и пригласил Вас на должность финансового директора.
-                                    Первая задача, которую вы получили от нового руководства&nbsp;&mdash; предоставить годовую отчетность новому совету директоров 20 января.
-                                    Обычно отчетность появлялась в компании к 1 марта.
+                                    Ответьте на несколько вопросов,
+                                    чтобы мы могли подобрать для Вас индивидуальные решения,
+                                    которые упростят работу и принесут пользу.
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <a class="card-button js-to-question" data-question="1">Начать игру</a>
+                                <a class="card-button js-to-question" data-question="1">Пройти тест</a>
                             </div>
                         </div>
                     </div>
@@ -56,19 +55,31 @@
         <div class="card-content card-content__type-{{id}} card-content__type-padded">
 
             <div class="card-step">
-                <span class="card-step__in">Шаг {{id}} из 8</span>
+                <span class="card-step__in">Вопрос {{id}} из 7</span>
             </div>
 
             <div class="card-content__title">
                 {{text}}
             </div>
             <div class="card-content__text">
-                <ol class="card-content_variants">
+                <ul class="card-content_variants">
                     {[ _.each(variants, function(variant) { ]}
                         <li class="card-content_variant">
-                            <a class="js-to-answer" data-answer="{{variant.answerId}}" data-question="{{id}}">
-                                {{variant.text}}
-                            </a>
+                            {[ if (id < 7) { ]}
+                                <a class="js-to-question"
+                                   data-question="{{id + 1}}"
+                                   data-answer-index="{{id - 1}}"
+                                   data-answer-value="{{variant.value}}">
+                                    {{variant.text}}
+                                </a>
+                            {[ } else { ]}
+                                <a class="js-to-answer"
+                                   data-question="{{id + 1}}"
+                                   data-answer-index="{{id - 1}}"
+                                   data-answer-value="{{variant.value}}">
+                                    {{variant.text}}
+                                </a>
+                            {[ } ]}
                         </li>
                     {[ }); ]}
                 </ol>
@@ -79,16 +90,36 @@
 
     <script id="answer__tmpl" type="text/x-javascript-tmpl">
 
-        <div class="card-content card-content__type-{{type}}">
+        <div class="card-content card-content__type-answer">
+            <div class="card-content__title">
+                Спасибо за Ваши ответы! На их основе мы подобрали для Вас решения,
+                которые упростят работу и помогут сделать ее еще эффективнее.
+                На наш взгляд, Вам
+                {[ if (count > 1 || count === 0) {  ]}
+                    подойдут методы:
+                {[ } else { ]}
+                    подойдет метод:
+                {[ } ]}
+            </div>
             <div class="card-content__text">
-                {{text}}
+                <ul class="answers-list">
+                    {[ if (count === 0) {  ]}
+                        <li>{{answersData[6]}}</li>
+                        <li>{{answersData[5]}}</li>
+                    {[ } else { ]}
+                        {[ _.each(answers, function(answer, index) { ]}
+                            {[ if (answer === 1) { ]}
+                                <li>{{answersData[index]}}</li>
+                            {[ } ]}
+                        {[ }); ]}
+                    {[ } ]}
+                </ul>
             </div>
         </div>
         <div class="card-footer">
-            <a class="card-button js-to-question" data-question="{{nextQuestion}}">
-                {{buttonText}}
-            </a>
+            <a class="card-button js-to-question" data-question="1">Заново</a>
         </div>
+
 
     </script>
 
@@ -96,7 +127,7 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/underscore.min.js"></script>
     <script src="js/jquery.flip.min.js"></script>
-    <script src="js/gamedata.js"></script>
+    <script src="js/data.js"></script>
     <script src="js/script.js"></script>
 
 </body>
